@@ -1,0 +1,157 @@
+spring:
+  profiles:
+    group: # Run - Edit Configurations - Active Profiles에서 설정
+      dev: common, dev
+      prod: common, prod
+    active: dev
+---
+spring:
+  config:
+    activate:
+      on-profile: "common"
+  application:
+    name: healthtree_back
+    url: ${SPRING_APPLICATION_URL:http://localhost:8080}
+  sql:
+    init:
+      platform: mysql
+
+  datasource:
+    master:
+      hikari:
+        username: ${DB_USERNAME:root1}
+        password: ${DB_PASSWORD:example}
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:healthtree}?serverTimezone=Asia/Seoul&characterEncoding=utf8&useUnicode=true
+        maximum-pool-size: ${MAX_CONNECTION_POOL_SIZE:30}
+        connection-timeout: 5000
+        connection-init-sql: SELECT 1
+        validation-timeout: 2000
+        minimum-idle: 10
+        idle-timeout: 600000
+        max-lifetime: 1800000
+    slave:
+      hikari:
+        username: ${db.username1}
+        password: ${db.password}
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://${READ_DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:healthtree}?serverTimezone=Asia/Seoul&characterEncoding=utf8&useUnicode=true
+        maximum-pool-size: ${MAX_CONNECTION_POOL_SIZE:30}
+        connection-timeout: 5000
+        connection-init-sql: SELECT 1
+        validation-timeout: 2000
+        minimum-idle: 10
+        idle-timeout: 600000
+        max-lifetime: 1800000
+    devtools:
+      remote:
+        restart:
+          enabled: true
+
+  OAuth2:
+    google:
+      url: ${GOOGLE_AUTH_URL:https://accounts.google.com/o/oauth2/v2/auth}
+      client-id: ${GOOGLE_CLIENT_ID:test}
+      client-secret: ${GOOGLE_CLIENT_SECRET:test}
+      callback-login-url: ${GOOGLE_CALLBACK_URL:http://localhost:3000/api/auth/callback/google}
+      scope: https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile # 등록한 정보에 맞게 수정해주세요
+    kakao:
+      url: ${KAKAO_AUTH_URL:https://kauth.kakao.com/oauth/authorize}
+      client-id: ${KAKAO_CLIENT_ID:test}
+      secret-key: ${KAKAO_SECRET_KEY:test}
+      callback-login-url: ${KAKAO_CALLBACK_URL:http://localhost:3000/login/callback/kakao}
+      callback-logout-url: ${KAKAO_CALLBACK_LOGOUT_URL:http://localhost:3000/logout/callback/kakao}
+    naver:
+      url: ${NAVER_AUTH_URL:https://nid.naver.com/oauth2.0/authorize}
+      client-id: ${NAVER_CLIENT_ID:test}
+      secret-key: ${NAVER_SECRET_KEY:test}
+      callback-login-url: ${NAVER_CALLBACK_URL:http://localhost:3000/api/auth/callback/naver}
+
+  ncloud:
+    access-key: ${NCLOUD_ACCESS_KEY:access-key}
+    secret-key: ${NCLOUD_SECRET_KEY:secret-key}
+    kakao-alarm-service-id: ${NCLOUD_KAKAO_ALARM_SERVICE_ID:service-id}
+
+  payment:
+    mid: ${PAY_MID:INIpayTest}
+    sign_key: ${PAY_SIGN_KEY:11}
+    iniapi_key: ${PAY_INIAPI_KEY:11}
+    domain: ${PAY_DOMAIN:http://localhost:3000}
+    cancel_url: ${PAY_CANCEL_URL:https://stginiapi.inicis.com/v2/pg/refund}
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 100MB
+
+server:
+  port: 8080
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    groups-order: DESC
+    operationsSorter: method
+    disable-swagger-default-url: true
+    display-request-duration: true
+  api-docs:
+    path: /api-docs
+  show-actuator: true
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  paths-to-match:
+    - /**
+
+jwt:
+  secret-key: UwKYibQQgkW7g-*k.ap9kje-wxBHb9wdXoBT4vnt4P3sJWt-Nu # JWT key. 수정해주세요
+
+aws:
+  s3:
+    access_key: ${AWS_S3_ACCESS_KEY:11}
+    secret_key: ${AWS_S3_SECRET_KEY:11}
+    bucket: ${AWS_S3_BUCKET_NAME:dev-seniorz-s3-static-files-bucket}
+
+openai:
+  api:
+    key: ${OPENAI_API_KEY:sk-1234567890}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: "prod"
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update
+      # create, update, create-drop, none 등의 옵션이 있습니다.
+      # create: 기존테이블 삭제 후 다시 생성
+      # update: 변경된 부분만 반영
+      # create-drop: create와 같으나 종료 시점에 테이블 DROP
+      # none: 사용하지 않음
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    # DDl 생성 시 데이터베이스 고유의 기능 사용여부
+    generate-ddl: false
+    # 실행되는 쿼리문 보여주기 여부
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+---
+spring:
+  config:
+    activate:
+      on-profile: "dev"
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    generate-ddl: false
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
