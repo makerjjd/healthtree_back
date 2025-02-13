@@ -1,5 +1,7 @@
 package com.healthree.healthree_back.user.model.entity;
 
+import java.time.LocalDate;
+
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SQLRestriction;
@@ -40,6 +42,18 @@ public class UserEntity extends BaseEntity {
 
     @Column(nullable = false, length = 20)
     private String name;
+
+    @Column(nullable = false, length = 20)
+    private String phone;
+
+    @Column(nullable = false)
+    private LocalDate birth;
+
+    @Column(nullable = false, length = 10)
+    private String gender;
+
+    @Column(nullable = false, length = 50)
+    private String refreshToken;
 
     @Column(nullable = false)
     private boolean isDeleted = false; // 추가된 필드
