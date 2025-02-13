@@ -34,25 +34,28 @@ public class UserEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = true, length = 50, unique = true)
+    private String checkUpId; // index 추가
+
+    @Column(nullable = true, length = 50)
     private String email;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = true, length = 100)
     private String password;
 
     @Column(nullable = false, length = 20)
     private String name;
 
     @Column(nullable = false, length = 20)
-    private String phone;
+    private String phoneNumber;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDate birth;
 
     @Column(nullable = false, length = 10)
     private String gender;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = true, length = 50)
     private String refreshToken;
 
     @Column(nullable = false)

@@ -23,10 +23,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     private UserRepository userRepository;
+    private TokenUtil tokenUtil;
 
-    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, UserRepository userRepository) {
+    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, UserRepository userRepository,
+            TokenUtil tokenUtil) {
         super(authenticationManager);
         this.userRepository = userRepository;
+        this.tokenUtil = tokenUtil;
     }
 
     @Override
@@ -43,13 +46,13 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                     JwtProperties.TOKEN_PREFIX,
                     "");
 
-            String tokenId = TokenUtil.decodeAccessToken(accessToken);
+            String tokenId = tokenUtil.decodeAccessToken(accessToken);
 
             if (StringUtils.isNotBlank(tokenId)) {
                 UserEntity userEntity = userRepository.findByEmail(tokenId).orElse(null);
 
                 if (!ObjectUtils.isEmpty(userEntity)) {
-                    SecurityContextHolder.getContext().setAuthentication(TokenUtil.makeAuthentication(userEntity));
+                    SecurityContextHolder.getContext().setAuthentication(tokenUtil.makeAuthentication(userEntity));
                 }
             }
 

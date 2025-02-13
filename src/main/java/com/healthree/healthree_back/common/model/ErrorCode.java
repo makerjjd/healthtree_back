@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 @Getter
 @AllArgsConstructor
 public enum ErrorCode {
+    INVAILD_USER_INFO(HttpStatus.BAD_REQUEST, "invalid user info"),
+
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "internal server error"),
     INVAILD_INVITE_CODE(HttpStatus.BAD_REQUEST, "invalid invite code"),
     ENCRYPT_ERROR(HttpStatus.BAD_REQUEST, "encrypt error"),

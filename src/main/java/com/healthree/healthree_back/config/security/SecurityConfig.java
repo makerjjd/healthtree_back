@@ -11,6 +11,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.healthree.healthree_back.common.utils.TokenUtil;
 import com.healthree.healthree_back.config.jwt.JwtAuthorizationFilter;
 import com.healthree.healthree_back.user.UserRepository;
 
@@ -22,6 +23,7 @@ import lombok.AllArgsConstructor;
 public class SecurityConfig {
     private final UserRepository userRepository;
     private final CorsConfig corsConfig;
+    private final TokenUtil tokenUtil;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -59,7 +61,7 @@ public class SecurityConfig {
             AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
             http
                     .addFilter(corsConfig.corsFilter())
-                    .addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository));
+                    .addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository, tokenUtil));
         }
     }
 }
