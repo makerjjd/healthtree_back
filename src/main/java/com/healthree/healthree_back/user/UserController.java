@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "사용자 도메인", description = "사용자 도메인")
 @Slf4j
 @RestController
-@RequestMapping("/app/users")
+@RequestMapping("/app/user")
 @AllArgsConstructor
 public class UserController {
     private final UserService userService;

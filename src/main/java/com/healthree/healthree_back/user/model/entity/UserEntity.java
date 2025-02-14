@@ -34,9 +34,6 @@ public class UserEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = true, length = 50, unique = true)
-    private String checkUpId; // index 추가
-
     @Column(nullable = true, length = 50)
     private String email;
 

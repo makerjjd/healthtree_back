@@ -9,5 +9,5 @@ import com.healthree.healthree_back.user.model.entity.UserEntity;
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
     Optional<UserEntity> findByEmail(String email);
 
-    Optional<UserEntity> findByCheckUpIdAndNameAndPhoneNumber(String checkUpId, String name, String phoneNumber);
+    Optional<UserEntity> findByNameAndPhoneNumber(String name, String phoneNumber);
 }

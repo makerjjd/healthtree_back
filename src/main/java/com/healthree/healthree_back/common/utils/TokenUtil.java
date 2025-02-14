@@ -61,12 +61,22 @@ public class TokenUtil {
 
     public String decodeAccessTokenBeforeLogin(String token) {
         try {
-            return JWT.require(Algorithm.HMAC512(secretKey)).build()
+            String userId = JWT.require(Algorithm.HMAC512(secretKey)).build()
                     .verify(token)
-                    .getClaim("mobileNumber").asString();
+                    .getClaim("userId").asString();
+            return userId;
         } catch (Exception e) {
+            log.error("Error decoding token: {}", e.getMessage());
             throw new HealthTreeApplicationExceptionHandler(ErrorCode.INVALID_TOKEN, e.getMessage());
         }
+    }
+
+    public String makeAccessTokenBeforeLogin(UserEntity user) {
+        String token = JWT.create()
+                .withSubject(user.getId().toString())
+                .withClaim("userId", user.getId().toString())
+                .sign(Algorithm.HMAC512(secretKey));
+        return token;
     }
 
     public Long decodeRefreshToken(String refreshToken) {
@@ -77,13 +87,6 @@ public class TokenUtil {
         } catch (Exception e) {
             throw new HealthTreeApplicationExceptionHandler(ErrorCode.INVALID_TOKEN, e.getMessage());
         }
-    }
-
-    public String makeAccessTokenBeforeLogin(UserEntity user) {
-        return JWT.create()
-                .withSubject(user.getCheckUpId())
-                .withClaim("checkupid", user.getCheckUpId())
-                .sign(Algorithm.HMAC512(secretKey));
     }
 
     public String makeAccessToken(UserEntity user) {

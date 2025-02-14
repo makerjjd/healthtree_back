@@ -46,13 +46,28 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                     JwtProperties.TOKEN_PREFIX,
                     "");
 
-            String tokenId = tokenUtil.decodeAccessToken(accessToken);
+            String tokenId = "";
 
-            if (StringUtils.isNotBlank(tokenId)) {
-                UserEntity userEntity = userRepository.findByEmail(tokenId).orElse(null);
+            if (accessToken.startsWith("im_") && accessToken.endsWith("_si")) {
+                accessToken = accessToken.substring(3, accessToken.length() - 3);
+                tokenId = tokenUtil.decodeAccessTokenBeforeLogin(accessToken);
 
-                if (!ObjectUtils.isEmpty(userEntity)) {
-                    SecurityContextHolder.getContext().setAuthentication(tokenUtil.makeAuthentication(userEntity));
+                if (StringUtils.isNotBlank(tokenId)) {
+                    UserEntity userEntity = userRepository.findById(Long.parseLong(tokenId)).orElse(null);
+
+                    if (!ObjectUtils.isEmpty(userEntity)) {
+                        SecurityContextHolder.getContext().setAuthentication(tokenUtil.makeAuthentication(userEntity));
+                    }
+                }
+            } else {
+                tokenId = tokenUtil.decodeAccessToken(accessToken);
+
+                if (StringUtils.isNotBlank(tokenId)) {
+                    UserEntity userEntity = userRepository.findByEmail(tokenId).orElse(null);
+
+                    if (!ObjectUtils.isEmpty(userEntity)) {
+                        SecurityContextHolder.getContext().setAuthentication(tokenUtil.makeAuthentication(userEntity));
+                    }
                 }
             }
 

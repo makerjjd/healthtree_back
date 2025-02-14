@@ -26,10 +26,10 @@ public class HealthReportEntity {
     private Long id;
 
     @Column(nullable = false)
-    private Long userId;
+    private Long userId; // index
 
     @Column(nullable = false)
-    private String reportId;
+    private String checkUpId;
 
     @Column(nullable = false)
     private String hospitalName;

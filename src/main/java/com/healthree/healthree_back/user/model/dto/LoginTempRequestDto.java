@@ -20,7 +20,6 @@ public class LoginTempRequestDto {
 
     public UserEntity toEntity() {
         return UserEntity.builder()
-                .checkUpId(checkUpId)
                 .name(name)
                 .phoneNumber(phoneNumber)
                 .build();

@@ -19,8 +19,8 @@ spring:
   datasource:
     master:
       hikari:
-        username: ${DB_USERNAME:root1}
-        password: ${DB_PASSWORD:example}
+        username: ${DB_USERNAME:root}
+        password: ${DB_PASSWORD:7wjswndek}
         driver-class-name: com.mysql.cj.jdbc.Driver
         jdbc-url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:healthtree}?serverTimezone=Asia/Seoul&characterEncoding=utf8&useUnicode=true
         maximum-pool-size: ${MAX_CONNECTION_POOL_SIZE:30}
@@ -131,7 +131,7 @@ spring:
       # create-drop: create와 같으나 종료 시점에 테이블 DROP
       # none: 사용하지 않음
       naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        physical-strategy: com.healthree.healthree_back.config.SnakeCasePhysicalNamingStrategy
     # DDl 생성 시 데이터베이스 고유의 기능 사용여부
     generate-ddl: false
     # 실행되는 쿼리문 보여주기 여부
@@ -149,7 +149,7 @@ spring:
     hibernate:
       ddl-auto: update
       naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        physical-strategy: com.healthree.healthree_back.config.SnakeCasePhysicalNamingStrategy
     generate-ddl: false
     show-sql: true
     properties:

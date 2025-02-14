@@ -21,14 +21,13 @@ public class UserService {
     @Transactional(readOnly = false)
     public TokenDto loginTemp(LoginTempRequestDto loginTempRequestDto) {
         UserEntity userEntity = userRepository
-                .findByCheckUpIdAndNameAndPhoneNumber(loginTempRequestDto.getCheckUpId(),
-                        loginTempRequestDto.getName(), loginTempRequestDto.getPhoneNumber())
+                .findByNameAndPhoneNumber(loginTempRequestDto.getName(), loginTempRequestDto.getPhoneNumber())
                 .orElseThrow(
                         () -> new HealthTreeApplicationExceptionHandler(ErrorCode.INVAILD_USER_INFO, "유저 정보가 없습니다."));
 
-        tokenUtil.makeAccessTokenBeforeLogin(userEntity);
+        String accessToken = tokenUtil.makeAccessTokenBeforeLogin(userEntity);
 
-        return TokenDto.builder().accessToken("accessToken").refreshToken("refreshToken").build();
+        return TokenDto.builder().accessToken("im_" + accessToken + "_si").build();
     }
 
 }
