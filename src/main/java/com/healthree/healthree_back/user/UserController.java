@@ -1,5 +1,7 @@
 package com.healthree.healthree_back.user;
 
+import java.io.IOException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,10 +9,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.healthree.healthree_back.common.handler.HealthTreeApplicationExceptionHandler;
 import com.healthree.healthree_back.common.model.ApiResponseMessage;
+import com.healthree.healthree_back.user.auth.GetSocialOAuthRes;
 import com.healthree.healthree_back.user.auth.OAuthService;
 import com.healthree.healthree_back.user.model.dto.LoginTempRequestDto;
 import com.healthree.healthree_back.user.model.dto.TokenDto;
@@ -48,6 +53,19 @@ public class UserController {
         String url = oAuthService.oAuthLoginRequest(socialLoginType);
 
         ApiResponseMessage message = ApiResponseMessage.successWithData("", url);
+        return new ResponseEntity<ApiResponseMessage>(message, HttpStatus.OK);
+    }
+
+    @Operation(summary = "SNS 로그인", description = "redirect url로 받은 코드를 넘겨 사용자 정보 획득")
+    @ApiResponse(description = "사용자 정보", responseCode = "200")
+    @ResponseBody
+    @GetMapping(value = "/auth/{socialLoginType}/login")
+    public ResponseEntity<?> socialLogin(
+            @PathVariable(name = "socialLoginType") SocialLoginType socialLoginType,
+            @RequestParam(name = "code") String code) throws IOException, HealthTreeApplicationExceptionHandler {
+        GetSocialOAuthRes getSocialOAuthRes = oAuthService.oAuthLoginOrJoin(socialLoginType, code);
+
+        ApiResponseMessage message = ApiResponseMessage.successWithData("", getSocialOAuthRes);
         return new ResponseEntity<ApiResponseMessage>(message, HttpStatus.OK);
     }
 }
