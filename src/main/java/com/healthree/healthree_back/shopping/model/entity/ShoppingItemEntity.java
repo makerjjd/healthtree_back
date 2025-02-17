@@ -39,4 +39,7 @@ public class ShoppingItemEntity {
 
     @Column(nullable = true)
     private Integer discountPrice;
+
+    @Column(nullable = false)
+    private Integer stock;
 }

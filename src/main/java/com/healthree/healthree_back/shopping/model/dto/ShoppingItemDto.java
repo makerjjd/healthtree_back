@@ -16,11 +16,15 @@ public class ShoppingItemDto {
     private String title;
     private String subTitle;
     private String imageUrl;
+    private Integer price;
+    private Integer discountPrice;
 
     public ShoppingItemDto(ShoppingItemEntity shoppingItemEntity) {
         this.id = shoppingItemEntity.getId();
         this.title = shoppingItemEntity.getTitle();
         this.subTitle = shoppingItemEntity.getSubTitle();
         this.imageUrl = shoppingItemEntity.getThumbnail();
+        this.price = shoppingItemEntity.getPrice();
+        this.discountPrice = shoppingItemEntity.getDiscountPrice();
     }
 }

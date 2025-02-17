@@ -56,6 +56,13 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                     UserEntity userEntity = userRepository.findById(Long.parseLong(tokenId)).orElse(null);
 
                     if (!ObjectUtils.isEmpty(userEntity)) {
+                        // String uri = request.getRequestURI();
+
+                        // if ("/api/user/login".equals(uri) || "/api/user/type".equals(uri)) {
+                        // SecurityContextHolder.getContext()
+                        // .setAuthentication(tokenUtil.makeAuthentication(userEntity));
+                        // }
+
                         SecurityContextHolder.getContext().setAuthentication(tokenUtil.makeAuthentication(userEntity));
                     }
                 }

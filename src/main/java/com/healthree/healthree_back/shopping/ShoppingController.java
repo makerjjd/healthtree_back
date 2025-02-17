@@ -2,13 +2,19 @@ package com.healthree.healthree_back.shopping;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.healthree.healthree_back.common.dto.PageRequestDto;
 import com.healthree.healthree_back.common.model.ApiResponseMessage;
+import com.healthree.healthree_back.common.utils.AuthUtil;
+import com.healthree.healthree_back.shopping.model.dto.ShoppingItemDetailDto;
 import com.healthree.healthree_back.shopping.model.dto.ShoppingListResponseDto;
+import com.healthree.healthree_back.shopping.model.dto.ShoppingCartResponseDto;
+import com.healthree.healthree_back.user.model.entity.UserEntity;
 
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,6 +37,24 @@ public class ShoppingController {
         ShoppingListResponseDto shoppingListResponseDto = shoppingService.getShoppingList(pageRequestDto);
         ApiResponseMessage message = ApiResponseMessage.successWithData("", shoppingListResponseDto);
         return new ResponseEntity<ApiResponseMessage>(message, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> detail(@PathVariable Long id) {
+        ShoppingItemDetailDto shoppingItemDetailDto = shoppingService.getShoppingItemDetail(id);
+
+        return new ResponseEntity<ApiResponseMessage>(
+                ApiResponseMessage.successWithData("", shoppingItemDetailDto), HttpStatus.OK);
+    }
+
+    @GetMapping("/cart")
+    @Parameter(name = "pageRequestDto", hidden = true)
+    @Parameter(name = "page", description = "페이지 값", required = false)
+    @Parameter(name = "search", description = "검색어", required = false)
+    public ResponseEntity<?> cart(Authentication authentication, PageRequestDto pageRequestDto) {
+        UserEntity userEntity = AuthUtil.getUserEntity(authentication);
+        ShoppingCartResponseDto shoppingCartResponseDto = shoppingService.getShoppingCart(userEntity, pageRequestDto);
+        return new ResponseEntity<ApiResponseMessage>(ApiResponseMessage.successWithData("", ""), HttpStatus.OK);
     }
 
 }
