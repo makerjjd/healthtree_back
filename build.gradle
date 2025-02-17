@@ -36,8 +36,9 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation 'me.paulschwarz:spring-dotenv:3.0.0'
 	implementation 'org.apache.commons:commons-lang3:3.12.0'
-	implementation 'com.auth0:java-jwt:3.19.2'
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
+	implementation 'org.jetbrains:annotations:23.0.0'
+	implementation 'com.auth0:java-jwt:3.19.2'
 }
 
 tasks.named('test') {

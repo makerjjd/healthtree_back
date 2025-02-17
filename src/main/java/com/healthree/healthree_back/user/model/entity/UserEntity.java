@@ -2,11 +2,13 @@ package com.healthree.healthree_back.user.model.entity;
 
 import java.time.LocalDate;
 
+import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SQLRestriction;
 
 import com.healthree.healthree_back.common.model.entity.BaseEntity;
+import com.healthree.healthree_back.user.model.type.GenderType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,6 +36,14 @@ public class UserEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 100)
+    @Comment("SNS 회원 ID")
+    private String socialId;
+
+    @Column(nullable = false, length = 20)
+    @Comment("SNS 로그인 플랫폼")
+    private String socialType;
+
     @Column(nullable = true, length = 50)
     private String email;
 
@@ -50,7 +60,7 @@ public class UserEntity extends BaseEntity {
     private LocalDate birth;
 
     @Column(nullable = false, length = 10)
-    private String gender;
+    private GenderType gender;
 
     @Column(nullable = true, length = 50)
     private String refreshToken;

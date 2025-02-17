@@ -29,7 +29,7 @@ public class HealthReportController {
     public ResponseEntity<?> home(Authentication authentication) {
         UserEntity userEntity = AuthUtil.getUserEntity(authentication);
         HealthReportHomeResponseDto healthReportHomeResponseDto = healthReportService.home(userEntity);
-        ApiResponseMessage message = ApiResponseMessage.successWithData("", "home");
+        ApiResponseMessage message = ApiResponseMessage.successWithData("", healthReportHomeResponseDto);
         return new ResponseEntity<ApiResponseMessage>(message, HttpStatus.OK);
     }
 
@@ -37,7 +37,7 @@ public class HealthReportController {
     public ResponseEntity<?> history(Authentication authentication) {
         UserEntity userEntity = AuthUtil.getUserEntity(authentication);
         HealthReportHistoryResponseDto healthReportHistoryDto = healthReportService.getHealthReportHistory(userEntity);
-        ApiResponseMessage message = ApiResponseMessage.successWithData("", "history");
+        ApiResponseMessage message = ApiResponseMessage.successWithData("", healthReportHistoryDto);
         return new ResponseEntity<ApiResponseMessage>(message, HttpStatus.OK);
     }
 }

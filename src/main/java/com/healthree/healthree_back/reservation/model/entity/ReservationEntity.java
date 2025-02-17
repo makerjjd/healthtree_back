@@ -1,5 +1,6 @@
 package com.healthree.healthree_back.reservation.model.entity;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -9,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +19,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "reservation")
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class ReservationEntity {
     @Id
     @Column(nullable = false, updatable = false)
@@ -33,7 +36,7 @@ public class ReservationEntity {
     private Long doctorId;
 
     @Column(nullable = false)
-    private List<String> reservationDate;
+    private List<LocalDateTime> reservationDateTimes;
 
     @Column(nullable = true)
     private String confirmDate;
