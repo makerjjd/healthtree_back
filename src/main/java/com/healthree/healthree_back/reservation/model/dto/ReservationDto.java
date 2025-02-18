@@ -12,11 +12,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ReservationDto {
+    private Long id;
     private String hospitalName;
     private String docotrName;
     private LocalDateTime reservationDateTime;
 
-    public ReservationDto(String hospitalName, String docotrName, LocalDateTime reservationDateTime) {
+    public ReservationDto(Long id, String hospitalName, String docotrName, LocalDateTime reservationDateTime) {
+        this.id = id;
         this.hospitalName = hospitalName;
         this.docotrName = docotrName;
         this.reservationDateTime = reservationDateTime;
@@ -25,6 +27,7 @@ public class ReservationDto {
     public static ReservationDto toReservationDto(
             HospitalReservationSummaryProjection hospitalReservationSummaryProjection) {
         return ReservationDto.builder()
+                .id(hospitalReservationSummaryProjection.getId())
                 .hospitalName(hospitalReservationSummaryProjection.getHospitalName())
                 .docotrName(hospitalReservationSummaryProjection.getDoctorName())
                 .reservationDateTime(hospitalReservationSummaryProjection.getReservationDateTime())

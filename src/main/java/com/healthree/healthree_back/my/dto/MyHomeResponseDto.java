@@ -2,8 +2,8 @@ package com.healthree.healthree_back.my.dto;
 
 import java.util.List;
 
+import com.healthree.healthree_back.order.model.dto.OrderDto;
 import com.healthree.healthree_back.reservation.model.dto.ReservationDto;
-import com.healthree.healthree_back.shopping.model.dto.OrderDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

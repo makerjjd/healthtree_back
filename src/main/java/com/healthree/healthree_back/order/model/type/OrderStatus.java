@@ -1,7 +1,7 @@
-package com.healthree.healthree_back.shopping.model.type;
+package com.healthree.healthree_back.order.model.type;
 
 public enum OrderStatus {
-    ORDERED(0), DELIVERING(1), DELIVERED(2), CANCELED(3);
+    ORDERED(0), DELIVERING(1), DELIVERED(2), CANCELED(3), CANCEL_REQUESTED(4);
 
     Integer code;
 

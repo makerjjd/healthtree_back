@@ -1,8 +1,10 @@
-package com.healthree.healthree_back.shopping.model.entity;
+package com.healthree.healthree_back.order.model.entity;
 
 import java.time.LocalDateTime;
 
-import com.healthree.healthree_back.shopping.model.type.OrderStatus;
+import org.hibernate.annotations.SQLRestriction;
+
+import com.healthree.healthree_back.order.model.type.OrderStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,11 +12,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Entity
 @Table(name = "user_order")
+@SQLRestriction("is_deleted=0")
+@Builder
 public class UserOrderEntity {
     @Id
     @Column(nullable = false, updatable = false)
@@ -50,10 +55,4 @@ public class UserOrderEntity {
 
     @Column(nullable = false)
     private String deliveryId;
-
-    @Column(nullable = true)
-    private LocalDateTime deliveryDateTime;
-
-    @Column(nullable = true)
-    private String deliveryAddress;
 }

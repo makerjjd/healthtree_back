@@ -1,9 +1,9 @@
-package com.healthree.healthree_back.shopping.model.dto;
+package com.healthree.healthree_back.order.model.dto;
 
 import java.time.LocalDateTime;
 
 import com.healthree.healthree_back.my.dto.projection.OrderItemSummaryProjection;
-import com.healthree.healthree_back.shopping.model.type.OrderStatus;
+import com.healthree.healthree_back.order.model.type.OrderStatus;
 
 import lombok.Builder;
 import lombok.Data;

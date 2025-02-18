@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.healthree.healthree_back.my.dto.projection.OrderItemSummaryProjection;
-import com.healthree.healthree_back.shopping.model.entity.OrderItemEntity;
+import com.healthree.healthree_back.order.model.entity.OrderItemEntity;
 
 public interface OrderItemRepository extends JpaRepository<OrderItemEntity, Long> {
 
