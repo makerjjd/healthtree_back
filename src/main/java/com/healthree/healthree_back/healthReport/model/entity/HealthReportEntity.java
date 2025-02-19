@@ -32,13 +32,13 @@ public class HealthReportEntity {
     private String checkUpId;
 
     @Column(nullable = false)
-    private String hospitalName;
+    private Long hospitalId;
 
     @Column(nullable = false)
-    private String dockerName;
+    private Long doctorId;
 
     @Column(nullable = false)
-    private String dockerNote;
+    private String doctorNote;
 
     @Column(nullable = false)
     private LocalDate reportDate;

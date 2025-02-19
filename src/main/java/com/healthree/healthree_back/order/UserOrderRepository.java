@@ -10,7 +10,7 @@ import com.healthree.healthree_back.order.model.entity.UserOrderEntity;
 
 public interface UserOrderRepository extends JpaRepository<UserOrderEntity, Long> {
 
-    Slice<UserOrderEntity> findAllByUserIdOrderByCreatedAtDesc(Long id, Pageable pageable);
+    Slice<UserOrderEntity> findAllByUserIdOrderByOrderDateTimeDesc(Long id, Pageable pageable);
 
     Optional<UserOrderEntity> findByIdAndUserId(Long id, Long id2);
 

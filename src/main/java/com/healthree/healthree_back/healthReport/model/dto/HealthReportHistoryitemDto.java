@@ -19,6 +19,6 @@ public class HealthReportHistoryitemDto {
     public HealthReportHistoryitemDto(HealthReportEntity healthReportEntity) {
         this.id = healthReportEntity.getId();
         this.reportDate = healthReportEntity.getReportDate();
-        this.dockerNote = healthReportEntity.getDockerNote();
+        this.dockerNote = healthReportEntity.getDoctorNote();
     }
 }

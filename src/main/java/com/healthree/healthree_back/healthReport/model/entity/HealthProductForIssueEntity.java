@@ -2,7 +2,10 @@ package com.healthree.healthree_back.healthReport.model.entity;
 
 import java.util.List;
 
+import com.healthree.healthree_back.common.model.converter.LongListConverter;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,6 +33,7 @@ public class HealthProductForIssueEntity {
     private String issueName;
 
     @Column(nullable = false)
+    @Convert(converter = LongListConverter.class)
     private List<Long> productIds;
 
     @Column(nullable = false)

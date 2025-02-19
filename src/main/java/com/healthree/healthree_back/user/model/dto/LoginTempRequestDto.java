@@ -1,5 +1,6 @@
 package com.healthree.healthree_back.user.model.dto;
 
+import com.healthree.healthree_back.common.utils.AES256Util;
 import com.healthree.healthree_back.user.model.entity.UserEntity;
 
 import io.swagger.v3.oas.annotations.media.Schema;

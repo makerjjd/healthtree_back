@@ -10,10 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.healthree.healthree_back.my.dto.MyHomeResponseDto;
 import com.healthree.healthree_back.my.dto.projection.HospitalReservationSummaryProjection;
 import com.healthree.healthree_back.my.dto.projection.OrderItemSummaryProjection;
+import com.healthree.healthree_back.order.OrderItemRepository;
 import com.healthree.healthree_back.order.model.dto.OrderDto;
 import com.healthree.healthree_back.reservation.ReservationRepository;
 import com.healthree.healthree_back.reservation.model.dto.ReservationDto;
-import com.healthree.healthree_back.shopping.OrderItemRepository;
 import com.healthree.healthree_back.user.model.entity.UserEntity;
 
 import lombok.AllArgsConstructor;

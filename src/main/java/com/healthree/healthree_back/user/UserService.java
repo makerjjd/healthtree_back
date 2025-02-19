@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.healthree.healthree_back.common.handler.HealthTreeApplicationExceptionHandler;
 import com.healthree.healthree_back.common.model.ErrorCode;
 import com.healthree.healthree_back.common.utils.TokenUtil;
+import com.healthree.healthree_back.healthReport.HealthReportRepository;
+import com.healthree.healthree_back.healthReport.model.entity.HealthReportEntity;
 import com.healthree.healthree_back.user.model.dto.GetUserRes;
 import com.healthree.healthree_back.user.model.dto.LoginTempRequestDto;
 import com.healthree.healthree_back.user.model.dto.TokenDto;
@@ -17,6 +19,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final HealthReportRepository healthReportRepository;
     private final TokenUtil tokenUtil;
 
     @Transactional(readOnly = false)
@@ -25,6 +28,11 @@ public class UserService {
                 .findByNameAndPhoneNumber(loginTempRequestDto.getName(), loginTempRequestDto.getPhoneNumber())
                 .orElseThrow(
                         () -> new HealthTreeApplicationExceptionHandler(ErrorCode.INVAILD_USER_INFO, "유저 정보가 없습니다."));
+
+        HealthReportEntity healthReportEntity = healthReportRepository
+                .findByCheckUpIdAndUserId(loginTempRequestDto.getCheckUpId(), userEntity.getId())
+                .orElseThrow(
+                        () -> new HealthTreeApplicationExceptionHandler(ErrorCode.INVAILD_USER_INFO, "검진 정보가 없습니다."));
 
         String accessToken = tokenUtil.makeAccessTokenBeforeLogin(userEntity);
 

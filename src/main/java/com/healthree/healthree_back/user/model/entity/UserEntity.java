@@ -36,11 +36,11 @@ public class UserEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = true, length = 100)
     @Comment("SNS 회원 ID")
     private String socialId;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = true, length = 20)
     @Comment("SNS 로그인 플랫폼")
     private String socialType;
 
@@ -56,7 +56,7 @@ public class UserEntity extends BaseEntity {
     @Column(nullable = false, length = 20)
     private String phoneNumber;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private LocalDate birth;
 
     @Column(nullable = false, length = 10)

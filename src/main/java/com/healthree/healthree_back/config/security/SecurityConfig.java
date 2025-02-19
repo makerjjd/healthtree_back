@@ -40,9 +40,7 @@ public class SecurityConfig {
                 .apply(new CustomDsl())
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/app/user/**", "admin/**", "/api/payment/deposit/callback",
-                                "/api/alarm/secretary/**",
-                                "/api/customerService")
+                        .requestMatchers("/app/user/**", "admin/**")
                         .permitAll()
                         .requestMatchers("/app/**").authenticated());
 

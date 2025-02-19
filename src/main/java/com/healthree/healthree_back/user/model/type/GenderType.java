@@ -4,21 +4,21 @@ import lombok.Getter;
 
 @Getter
 public enum GenderType {
-    MALE("MALE", "남성"),
-    FEMALE("FEMALE", "여성");
+    MALE(0, "남성"),
+    FEMALE(1, "여성");
 
-    GenderType(String code, String description) {
+    GenderType(Integer code, String description) {
         this.code = code;
         this.description = description;
     }
 
-    private String code;
+    private Integer code;
     private String description;
 
-    public static GenderType fromCode(String code) {
-        for (GenderType gender : GenderType.values()) {
-            if (code != null && gender.getCode().equals(code.toUpperCase())) {
-                return gender;
+    public static GenderType valueOf(Integer code) {
+        for (GenderType genderType : values()) {
+            if (genderType.getCode().equals(code)) {
+                return genderType;
             }
         }
         return null;

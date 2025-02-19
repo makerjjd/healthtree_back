@@ -58,7 +58,7 @@ public class HealthReportService {
 
         List<HospitalForIssueDto> hospitalForIssueDtos = getHospitalForIssueDtos(hospitalForIssueEntities);
 
-        return HealthReportHomeResponseDto.builder().doctorNote(healthReportEntity.getDockerNote())
+        return HealthReportHomeResponseDto.builder().doctorNote(healthReportEntity.getDoctorNote())
                 .healthProductForIssueDtos(healthProductForIssueDto).hospitalForIssueDtos(hospitalForIssueDtos)
                 .build();
     }

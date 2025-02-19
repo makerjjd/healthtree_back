@@ -36,7 +36,7 @@ public class OrderService {
     @Transactional(readOnly = true)
     public OrdersResponseDto getOrderList(UserEntity userEntity, PageRequestDto pageRequestDto) {
         Slice<UserOrderEntity> userOrderEntities = userOrderRepository
-                .findAllByUserIdOrderByCreatedAtDesc(userEntity.getId(), pageRequestDto.getPageable());
+                .findAllByUserIdOrderByOrderDateTimeDesc(userEntity.getId(), pageRequestDto.getPageable());
 
         List<Long> orderIds = userOrderEntities.stream().map(UserOrderEntity::getId).toList();
 
