@@ -19,7 +19,7 @@ public class OrderShoppingItemDto {
     public OrderShoppingItemDto(OrderItemPorjection orderItemPorjection) {
         this.id = orderItemPorjection.getId();
         this.imageUrl = orderItemPorjection.getImageUrl();
-        this.productName = orderItemPorjection.getProductName();
+        this.productName = orderItemPorjection.getItemName();
         this.price = orderItemPorjection.getPrice();
         this.quantity = orderItemPorjection.getQuantity();
     }

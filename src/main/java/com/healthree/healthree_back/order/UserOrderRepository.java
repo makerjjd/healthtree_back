@@ -1,5 +1,6 @@
 package com.healthree.healthree_back.order;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
@@ -12,6 +13,8 @@ public interface UserOrderRepository extends JpaRepository<UserOrderEntity, Long
 
     Slice<UserOrderEntity> findAllByUserIdOrderByOrderDateTimeDesc(Long id, Pageable pageable);
 
-    Optional<UserOrderEntity> findByIdAndUserId(Long id, Long id2);
+    Optional<UserOrderEntity> findByIdAndUserId(Long id, Long userId);
+
+    List<UserOrderEntity> findTop3ByUserIdOrderByOrderDateTimeDesc(Long id);
 
 }

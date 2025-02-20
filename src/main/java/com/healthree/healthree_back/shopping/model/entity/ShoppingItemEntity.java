@@ -2,7 +2,10 @@ package com.healthree.healthree_back.shopping.model.entity;
 
 import java.util.List;
 
+import com.healthree.healthree_back.common.model.converter.StringListConverter;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,6 +35,7 @@ public class ShoppingItemEntity {
     private String topImage;
 
     @Column(nullable = false)
+    @Convert(converter = StringListConverter.class)
     private List<String> detailImages;
 
     @Column(nullable = false)

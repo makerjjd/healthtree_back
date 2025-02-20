@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 public class PageRequestDto {
-    private Integer limit = 5;
+    private Integer limit = 6;
     private Integer page = 1;
     private String search;
 

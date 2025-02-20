@@ -46,7 +46,7 @@ public class ShoppingService {
         shoppingListResponseDto.setShoppingList(shoppingItemList);
 
         if (shoppingItems.hasNext()) {
-            String nextUrl = "/app/shopping?page=" + shoppingItems.nextPageable().getPageNumber();
+            String nextUrl = "/app/shopping" + pageRequestDto.nextUrl();
             shoppingListResponseDto.setNextUrl(nextUrl);
         }
 

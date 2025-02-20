@@ -2,7 +2,7 @@ package com.healthree.healthree_back.my.dto;
 
 import java.util.List;
 
-import com.healthree.healthree_back.order.model.dto.OrderDto;
+import com.healthree.healthree_back.order.model.dto.OrderItemDto;
 import com.healthree.healthree_back.reservation.model.dto.ReservationDto;
 
 import lombok.AllArgsConstructor;
@@ -17,5 +17,5 @@ import lombok.NoArgsConstructor;
 public class MyHomeResponseDto {
     private List<ReservationDto> upcomimgReservation;
     private List<ReservationDto> recentReservations;
-    private List<OrderDto> recentOrders;
+    private List<OrderItemDto> recentOrders;
 }

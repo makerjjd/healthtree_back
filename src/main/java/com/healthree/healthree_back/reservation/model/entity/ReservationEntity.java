@@ -3,7 +3,10 @@ package com.healthree.healthree_back.reservation.model.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.healthree.healthree_back.common.model.converter.StringListConverter;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -36,7 +39,8 @@ public class ReservationEntity {
     private Long doctorId;
 
     @Column(nullable = false)
-    private List<LocalDateTime> reservationDateTimes;
+    @Convert(converter = StringListConverter.class)
+    private List<String> reservationDateTimes;
 
     @Column(nullable = true)
     private String confirmDate;

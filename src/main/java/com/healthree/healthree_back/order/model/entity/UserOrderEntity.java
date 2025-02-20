@@ -55,4 +55,7 @@ public class UserOrderEntity {
 
     @Column(nullable = false)
     private String deliveryId;
+
+    @Column(nullable = false)
+    private boolean isDeleted;
 }

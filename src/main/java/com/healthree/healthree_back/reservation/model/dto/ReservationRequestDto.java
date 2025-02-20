@@ -1,6 +1,5 @@
 package com.healthree.healthree_back.reservation.model.dto;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import com.healthree.healthree_back.reservation.model.entity.ReservationEntity;
@@ -15,14 +14,14 @@ import lombok.NoArgsConstructor;
 public class ReservationRequestDto {
     private Long hospitalId;
     private Long doctorId;
-    private List<LocalDateTime> reservationTimes;
+    private List<String> reservationDateTimes;
 
     public ReservationEntity toEntity(Long userId) {
         return ReservationEntity.builder()
                 .userId(userId)
                 .hospitalId(hospitalId)
                 .doctorId(doctorId)
-                .reservationDateTimes(reservationTimes)
+                .reservationDateTimes(reservationDateTimes)
                 .build();
     }
 }

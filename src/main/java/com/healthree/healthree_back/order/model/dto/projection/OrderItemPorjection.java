@@ -5,7 +5,7 @@ public interface OrderItemPorjection {
 
     String getImageUrl();
 
-    String getProductName();
+    String getItemName();
 
     int getPrice();
 

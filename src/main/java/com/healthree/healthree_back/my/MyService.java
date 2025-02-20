@@ -3,15 +3,20 @@ package com.healthree.healthree_back.my;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.healthree.healthree_back.my.dto.MyHomeResponseDto;
 import com.healthree.healthree_back.my.dto.projection.HospitalReservationSummaryProjection;
-import com.healthree.healthree_back.my.dto.projection.OrderItemSummaryProjection;
 import com.healthree.healthree_back.order.OrderItemRepository;
-import com.healthree.healthree_back.order.model.dto.OrderDto;
+import com.healthree.healthree_back.order.UserOrderRepository;
+import com.healthree.healthree_back.order.model.dto.OrderItemDto;
+import com.healthree.healthree_back.order.model.dto.OrderShoppingItemDto;
+import com.healthree.healthree_back.order.model.dto.projection.OrderItemPorjection;
+import com.healthree.healthree_back.order.model.entity.UserOrderEntity;
 import com.healthree.healthree_back.reservation.ReservationRepository;
 import com.healthree.healthree_back.reservation.model.dto.ReservationDto;
 import com.healthree.healthree_back.user.model.entity.UserEntity;
@@ -22,6 +27,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class MyService {
         private final ReservationRepository reservationRepository;
+        private final UserOrderRepository userOrderRepository;
         private final OrderItemRepository orderItemRepository;
 
         @Transactional(readOnly = true)
@@ -40,8 +46,15 @@ public class MyService {
                                                 now);
 
                 // 주문내역중 최근 3개 가져온다.
-                List<OrderItemSummaryProjection> orderItemSummaryProjections = orderItemRepository
-                                .findTop3ByUserIdOrderByCreatedAtDesc(userEntity.getId());
+                List<UserOrderEntity> userOrderEntities = userOrderRepository
+                                .findTop3ByUserIdOrderByOrderDateTimeDesc(userEntity.getId());
+
+                List<Long> orderIds = userOrderEntities.stream().map(UserOrderEntity::getId).toList();
+
+                List<OrderItemPorjection> orderItemSummaryProjections = orderItemRepository
+                                .findOrderItemInfosByOrderIds(orderIds);
+                Map<Long, List<OrderItemPorjection>> orderItemMap = orderItemSummaryProjections.stream()
+                                .collect(Collectors.groupingBy(OrderItemPorjection::getId));
 
                 // dto maaping
                 List<ReservationDto> upcomimgReservation = upCommingReservationSummaryProjections.stream()
@@ -51,11 +64,19 @@ public class MyService {
                                 .map(ReservationDto::toReservationDto)
                                 .toList();
 
-                List<OrderDto> recentOrders = orderItemSummaryProjections.stream().map(OrderDto::toOrderDto).toList();
+                List<OrderItemDto> orderItemDtos = userOrderEntities.stream().map(userOrderEntity -> {
+                        List<OrderShoppingItemDto> orderShoppintItemDtos = orderItemMap.get(userOrderEntity.getId())
+                                        .stream()
+                                        .map(orderItemPorjection -> {
+                                                return new OrderShoppingItemDto(orderItemPorjection);
+                                        }).toList();
+
+                        return new OrderItemDto(userOrderEntity, orderShoppintItemDtos);
+                }).toList();
 
                 return MyHomeResponseDto.builder().upcomimgReservation(upcomimgReservation)
                                 .recentReservations(recentReservations)
-                                .recentOrders(recentOrders).build();
+                                .recentOrders(orderItemDtos).build();
         }
 
 }
