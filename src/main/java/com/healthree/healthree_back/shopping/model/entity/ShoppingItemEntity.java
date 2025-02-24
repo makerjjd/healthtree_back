@@ -2,6 +2,7 @@ package com.healthree.healthree_back.shopping.model.entity;
 
 import java.util.List;
 
+import com.healthree.healthree_back.common.model.converter.LocalDateTimeListConverter;
 import com.healthree.healthree_back.common.model.converter.StringListConverter;
 
 import jakarta.persistence.Column;

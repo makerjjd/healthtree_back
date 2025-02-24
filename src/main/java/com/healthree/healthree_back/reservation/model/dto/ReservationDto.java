@@ -1,6 +1,10 @@
 package com.healthree.healthree_back.reservation.model.dto;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.healthree.healthree_back.my.dto.projection.HospitalReservationSummaryProjection;
 
@@ -15,9 +19,11 @@ public class ReservationDto {
     private Long id;
     private String hospitalName;
     private String docotrName;
+    private List<LocalDateTime> reservationRequestDateTimes;
     private LocalDateTime reservationDateTime;
 
-    public ReservationDto(Long id, String hospitalName, String docotrName, LocalDateTime reservationDateTime) {
+    public ReservationDto(Long id, String hospitalName, String docotrName,
+            List<LocalDateTime> reservationRequestDateTimes, LocalDateTime reservationDateTime) {
         this.id = id;
         this.hospitalName = hospitalName;
         this.docotrName = docotrName;
@@ -26,11 +32,19 @@ public class ReservationDto {
 
     public static ReservationDto toReservationDto(
             HospitalReservationSummaryProjection hospitalReservationSummaryProjection) {
-        return ReservationDto.builder()
-                .id(hospitalReservationSummaryProjection.getId())
-                .hospitalName(hospitalReservationSummaryProjection.getHospitalName())
-                .docotrName(hospitalReservationSummaryProjection.getDoctorName())
-                .reservationDateTime(hospitalReservationSummaryProjection.getReservationDateTime())
-                .build();
+
+        List<LocalDateTime> reservationRequestDateTimeList = Arrays
+                .stream(hospitalReservationSummaryProjection.getReservationRequestDateTimes().split(","))
+                .map(dateTime -> LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME))
+                .collect(Collectors.toList());
+
+        ReservationDto reservationDto = new ReservationDto();
+        reservationDto.setId(hospitalReservationSummaryProjection.getId());
+        reservationDto.setHospitalName(hospitalReservationSummaryProjection.getHospitalName());
+        reservationDto.setDocotrName(hospitalReservationSummaryProjection.getDoctorName());
+        reservationDto.setReservationRequestDateTimes(reservationRequestDateTimeList);
+        reservationDto.setReservationDateTime(hospitalReservationSummaryProjection.getReservationDateTime());
+
+        return reservationDto;
     }
 }

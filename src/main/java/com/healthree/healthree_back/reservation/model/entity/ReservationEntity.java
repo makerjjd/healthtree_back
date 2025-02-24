@@ -3,7 +3,9 @@ package com.healthree.healthree_back.reservation.model.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.healthree.healthree_back.common.model.converter.StringListConverter;
+import org.hibernate.annotations.SQLRestriction;
+
+import com.healthree.healthree_back.common.model.converter.LocalDateTimeListConverter;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -23,6 +25,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@SQLRestriction("is_deleted=0")
 public class ReservationEntity {
     @Id
     @Column(nullable = false, updatable = false)
@@ -39,9 +42,12 @@ public class ReservationEntity {
     private Long doctorId;
 
     @Column(nullable = false)
-    @Convert(converter = StringListConverter.class)
-    private List<String> reservationDateTimes;
+    @Convert(converter = LocalDateTimeListConverter.class)
+    private List<LocalDateTime> reservationDateTimes;
 
     @Column(nullable = true)
-    private String confirmDate;
+    private LocalDateTime confirmDate;
+
+    @Column(nullable = false)
+    private Boolean isDeleted;
 }

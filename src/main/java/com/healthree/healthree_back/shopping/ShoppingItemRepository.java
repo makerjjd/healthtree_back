@@ -1,7 +1,6 @@
 package com.healthree.healthree_back.shopping;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;

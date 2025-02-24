@@ -13,6 +13,7 @@ import com.healthree.healthree_back.my.dto.projection.HospitalReservationSummary
 import com.healthree.healthree_back.reservation.model.dto.ReservationDto;
 import com.healthree.healthree_back.reservation.model.dto.ReservationRequestDto;
 import com.healthree.healthree_back.reservation.model.dto.ReservationResponseDto;
+import com.healthree.healthree_back.reservation.model.entity.ReservationEntity;
 import com.healthree.healthree_back.user.model.entity.UserEntity;
 
 import lombok.AllArgsConstructor;
@@ -57,6 +58,9 @@ public class ReservationService {
 
     @Transactional(readOnly = false)
     public void cancelReservation(UserEntity userEntity, Long id) {
-        reservationRepository.deleteReservationByIdAndUserId(id, userEntity.getId());
+        ReservationEntity reservationEntity = reservationRepository.findByIdAndUserId(id, userEntity.getId())
+                .orElseThrow(() -> new HealthTreeApplicationExceptionHandler(ErrorCode.NOT_FOUND, "예약 정보를 찾을 수 없습니다."));
+        reservationEntity.setIsDeleted(true);
+        reservationRepository.save(reservationEntity);
     }
 }

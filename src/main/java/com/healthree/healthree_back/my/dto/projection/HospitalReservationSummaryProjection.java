@@ -10,4 +10,6 @@ public interface HospitalReservationSummaryProjection {
     String getDoctorName();
 
     LocalDateTime getReservationDateTime();
+
+    String getReservationRequestDateTimes();
 }
