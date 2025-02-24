@@ -40,7 +40,7 @@ public class ReservationService {
 
         String nextUrl = null;
         if (reservationProjections.hasNext()) {
-            nextUrl = "/app/reservations?page=" + pageRequestDto.getPage() + 1;
+            nextUrl = "/app/reservations?page=" + (pageRequestDto.getPage() + 1);
         }
 
         return ReservationResponseDto.builder().reservations(reservations).nextUrl(nextUrl).build();

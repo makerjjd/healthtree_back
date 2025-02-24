@@ -18,15 +18,15 @@ import lombok.NoArgsConstructor;
 public class ReservationDto {
     private Long id;
     private String hospitalName;
-    private String docotrName;
+    private String doctorName;
     private List<LocalDateTime> reservationRequestDateTimes;
     private LocalDateTime reservationDateTime;
 
-    public ReservationDto(Long id, String hospitalName, String docotrName,
+    public ReservationDto(Long id, String hospitalName, String doctorName,
             List<LocalDateTime> reservationRequestDateTimes, LocalDateTime reservationDateTime) {
         this.id = id;
         this.hospitalName = hospitalName;
-        this.docotrName = docotrName;
+        this.doctorName = doctorName;
         this.reservationDateTime = reservationDateTime;
     }
 
@@ -41,7 +41,7 @@ public class ReservationDto {
         ReservationDto reservationDto = new ReservationDto();
         reservationDto.setId(hospitalReservationSummaryProjection.getId());
         reservationDto.setHospitalName(hospitalReservationSummaryProjection.getHospitalName());
-        reservationDto.setDocotrName(hospitalReservationSummaryProjection.getDoctorName());
+        reservationDto.setDoctorName(hospitalReservationSummaryProjection.getDoctorName());
         reservationDto.setReservationRequestDateTimes(reservationRequestDateTimeList);
         reservationDto.setReservationDateTime(hospitalReservationSummaryProjection.getReservationDateTime());
 

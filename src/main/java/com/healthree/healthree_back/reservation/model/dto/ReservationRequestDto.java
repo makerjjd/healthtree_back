@@ -23,6 +23,7 @@ public class ReservationRequestDto {
                 .hospitalId(hospitalId)
                 .doctorId(doctorId)
                 .reservationDateTimes(reservationDateTimes)
+                .isDeleted(Boolean.FALSE)
                 .build();
     }
 }
