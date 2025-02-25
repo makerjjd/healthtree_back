@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.healthree.healthree_back.my.dto.MyHomeResponseDto;
 import com.healthree.healthree_back.my.dto.projection.HospitalReservationSummaryProjection;
+import com.healthree.healthree_back.notification.NotificationRepository;
+import com.healthree.healthree_back.notification.model.dto.NotificationCartCountResponseDto;
 import com.healthree.healthree_back.order.OrderItemRepository;
 import com.healthree.healthree_back.order.UserOrderRepository;
 import com.healthree.healthree_back.order.model.dto.OrderItemDto;
@@ -19,6 +21,7 @@ import com.healthree.healthree_back.order.model.dto.projection.OrderItemPorjecti
 import com.healthree.healthree_back.order.model.entity.UserOrderEntity;
 import com.healthree.healthree_back.reservation.ReservationRepository;
 import com.healthree.healthree_back.reservation.model.dto.ReservationDto;
+import com.healthree.healthree_back.shopping.ShoppingCartRepository;
 import com.healthree.healthree_back.user.model.entity.UserEntity;
 
 import lombok.AllArgsConstructor;
@@ -29,6 +32,8 @@ public class MyService {
         private final ReservationRepository reservationRepository;
         private final UserOrderRepository userOrderRepository;
         private final OrderItemRepository orderItemRepository;
+        private final NotificationRepository notificationRepository;
+        private final ShoppingCartRepository shoppingCartRepository;
 
         @Transactional(readOnly = true)
         public MyHomeResponseDto home(UserEntity userEntity) {
@@ -77,6 +82,16 @@ public class MyService {
                 return MyHomeResponseDto.builder().upcomimgReservation(upcomimgReservation)
                                 .recentReservations(recentReservations)
                                 .recentOrders(orderItemDtos).build();
+        }
+
+        @Transactional(readOnly = true)
+        public NotificationCartCountResponseDto getNotifiationCartCoun(UserEntity userEntity) {
+                Long notificationCount = notificationRepository.countByUserIdAndIsRead(userEntity.getId(),
+                                Boolean.FALSE);
+
+                Long shoppingCartCount = shoppingCartRepository.countByUserId(userEntity.getId());
+
+                return new NotificationCartCountResponseDto(notificationCount, shoppingCartCount);
         }
 
 }

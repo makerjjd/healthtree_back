@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.healthree.healthree_back.common.model.ApiResponseMessage;
 import com.healthree.healthree_back.common.utils.AuthUtil;
 import com.healthree.healthree_back.my.dto.MyHomeResponseDto;
+import com.healthree.healthree_back.notification.model.dto.NotificationCartCountResponseDto;
 import com.healthree.healthree_back.user.model.entity.UserEntity;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,6 +30,14 @@ public class MyController {
         UserEntity userEntity = AuthUtil.getUserEntity(authentication);
         MyHomeResponseDto myHomeResponseDto = myService.home(userEntity);
         ApiResponseMessage message = ApiResponseMessage.successWithData("", myHomeResponseDto);
+        return new ResponseEntity<ApiResponseMessage>(message, HttpStatus.OK);
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<?> getNotificationCount(Authentication authentication) {
+        UserEntity userEntity = AuthUtil.getUserEntity(authentication);
+        NotificationCartCountResponseDto notificationCountResponseDto = myService.getNotifiationCartCoun(userEntity);
+        ApiResponseMessage message = ApiResponseMessage.successWithData("", notificationCountResponseDto);
         return new ResponseEntity<ApiResponseMessage>(message, HttpStatus.OK);
     }
 }
