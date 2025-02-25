@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ShoppingCartResponseDto {
     List<ShoppingCartItemDto> shoppingCartItems;
+    String nextUrl;
 }

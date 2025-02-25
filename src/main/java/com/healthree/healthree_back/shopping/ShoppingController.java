@@ -3,17 +3,21 @@ package com.healthree.healthree_back.shopping;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.healthree.healthree_back.common.dto.PageRequestDto;
 import com.healthree.healthree_back.common.model.ApiResponseMessage;
 import com.healthree.healthree_back.common.utils.AuthUtil;
+import com.healthree.healthree_back.shopping.model.dto.ShoppingCartRequestDto;
+import com.healthree.healthree_back.shopping.model.dto.ShoppingCartResponseDto;
 import com.healthree.healthree_back.shopping.model.dto.ShoppingItemDetailDto;
 import com.healthree.healthree_back.shopping.model.dto.ShoppingListResponseDto;
-import com.healthree.healthree_back.shopping.model.dto.ShoppingCartResponseDto;
 import com.healthree.healthree_back.user.model.entity.UserEntity;
 
 import io.swagger.v3.oas.annotations.Parameter;
@@ -54,6 +58,22 @@ public class ShoppingController {
     public ResponseEntity<?> cart(Authentication authentication, PageRequestDto pageRequestDto) {
         UserEntity userEntity = AuthUtil.getUserEntity(authentication);
         ShoppingCartResponseDto shoppingCartResponseDto = shoppingService.getShoppingCart(userEntity, pageRequestDto);
+        return new ResponseEntity<ApiResponseMessage>(ApiResponseMessage.successWithData("", shoppingCartResponseDto),
+                HttpStatus.OK);
+    }
+
+    @PostMapping("/cart")
+    public ResponseEntity<?> addCart(Authentication authentication,
+            @RequestBody ShoppingCartRequestDto shoppingCartRequestDto) {
+        UserEntity userEntity = AuthUtil.getUserEntity(authentication);
+        shoppingService.addShoppingCart(userEntity, shoppingCartRequestDto);
+        return new ResponseEntity<ApiResponseMessage>(ApiResponseMessage.successWithData("", ""), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/cart/{id}")
+    public ResponseEntity<?> deleteCart(Authentication authentication, @PathVariable Long id) {
+        UserEntity userEntity = AuthUtil.getUserEntity(authentication);
+        shoppingService.deleteShoppingCart(userEntity, id);
         return new ResponseEntity<ApiResponseMessage>(ApiResponseMessage.successWithData("", ""), HttpStatus.OK);
     }
 

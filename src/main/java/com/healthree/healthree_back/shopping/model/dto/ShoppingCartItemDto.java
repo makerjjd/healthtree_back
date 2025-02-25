@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ShoppingCartItemDto {
     private Long id;
-    private String shoppingItemId;
+    private Long shoppingItemId;
     private String title;
     private String subTitle;
     private String imageUrl;
