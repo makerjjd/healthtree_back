@@ -13,12 +13,14 @@ public class OrderShoppingItemRequestDto {
     private Long itemId;
     private int quantity;
     private Integer price;
+    private Long cartId;
 
     public OrderItemEntity toEntity(Long orderId) {
         return OrderItemEntity.builder()
                 .orderId(orderId)
                 .itemId(itemId)
                 .count(quantity)
+                .price(price)
                 .build();
     }
 }

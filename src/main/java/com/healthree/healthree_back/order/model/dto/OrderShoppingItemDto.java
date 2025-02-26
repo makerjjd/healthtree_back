@@ -16,6 +16,13 @@ public class OrderShoppingItemDto {
     private int price;
     private int quantity;
 
+    public OrderShoppingItemDto(String imageUrl, String productName, int price, int quantity) {
+        this.imageUrl = imageUrl;
+        this.productName = productName;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
     public OrderShoppingItemDto(OrderItemPorjection orderItemPorjection) {
         this.id = orderItemPorjection.getId();
         this.imageUrl = orderItemPorjection.getImageUrl();

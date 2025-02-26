@@ -1,8 +1,5 @@
 package com.healthree.healthree_back.order.model.entity;
 
-import java.time.LocalDateTime;
-
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;
@@ -37,8 +34,4 @@ public class OrderItemEntity {
 
     @Column(nullable = false)
     private Integer price;
-
-    @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
 }

@@ -3,6 +3,7 @@ package com.healthree.healthree_back.order.model.dto;
 import java.util.List;
 
 import com.healthree.healthree_back.order.model.entity.UserOrderEntity;
+import com.healthree.healthree_back.order.model.type.OrderStatus;
 import com.healthree.healthree_back.user.model.entity.UserEntity;
 
 import lombok.AllArgsConstructor;
@@ -24,12 +25,14 @@ public class OrderRequestDto {
     public UserOrderEntity toEntity(UserEntity userEntity) {
         return UserOrderEntity.builder()
                 .userId(userEntity.getId())
+                .status(OrderStatus.ORDERED)
                 .receiverName(receiverName)
                 .receiverPhone(receiverPhone)
                 .receiverAddress(receiverAddress)
                 .deliveryPrice(deliveryPrice)
                 .totalPrice(totalPrice)
                 .finalPrice(finalPrice)
+                .isDeleted(false)
                 .build();
     }
 }

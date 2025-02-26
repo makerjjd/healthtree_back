@@ -2,10 +2,12 @@ package com.healthree.healthree_back.my;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,7 +61,7 @@ public class MyService {
                 List<OrderItemPorjection> orderItemSummaryProjections = orderItemRepository
                                 .findOrderItemInfosByOrderIds(orderIds);
                 Map<Long, List<OrderItemPorjection>> orderItemMap = orderItemSummaryProjections.stream()
-                                .collect(Collectors.groupingBy(OrderItemPorjection::getId));
+                                .collect(Collectors.groupingBy(OrderItemPorjection::getOrderId));
 
                 // dto maaping
                 List<ReservationDto> upcomimgReservation = upCommingReservationSummaryProjections.stream()
@@ -69,19 +71,42 @@ public class MyService {
                                 .map(ReservationDto::toReservationDto)
                                 .toList();
 
+                // private Long id;
+                // private String imageUrl;
+                // private String productName;
+                // private int price;
+                // private int quantity;
+
                 List<OrderItemDto> orderItemDtos = userOrderEntities.stream().map(userOrderEntity -> {
-                        List<OrderShoppingItemDto> orderShoppintItemDtos = orderItemMap.get(userOrderEntity.getId())
-                                        .stream()
-                                        .map(orderItemPorjection -> {
-                                                return new OrderShoppingItemDto(orderItemPorjection);
-                                        }).toList();
+                        List<OrderItemPorjection> orderItemPorjections = orderItemMap.get(userOrderEntity.getId());
+                        String imageUrl = "";
+                        String productName = "";
+                        int price = 0;
+                        int quantity = 0;
+
+                        if (orderItemPorjections != null && orderItemPorjections.size() > 0) {
+                                imageUrl = orderItemPorjections.get(0).getImageUrl();
+                                productName = orderItemPorjections.get(0).getItemName();
+
+                                if (orderItemPorjections.size() > 1) {
+                                        productName += " 외 " + (orderItemPorjections.size() - 1) + "개";
+                                }
+                        }
+
+                        for (OrderItemPorjection orderItemPorjection : orderItemPorjections) {
+                                price += orderItemPorjection.getPrice();
+                                quantity += orderItemPorjection.getQuantity();
+                        }
+
+                        OrderShoppingItemDto orderShoppintItemDtos = new OrderShoppingItemDto(imageUrl, productName,
+                                        price, quantity);
 
                         return new OrderItemDto(userOrderEntity, orderShoppintItemDtos);
                 }).toList();
 
                 return MyHomeResponseDto.builder().upcomimgReservation(upcomimgReservation)
-                                .recentReservations(recentReservations)
-                                .recentOrders(orderItemDtos).build();
+                                .recentReservations(recentReservations).recentOrders(orderItemDtos).build();
+
         }
 
         @Transactional(readOnly = true)

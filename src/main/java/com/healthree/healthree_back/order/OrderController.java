@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.healthree.healthree_back.common.dto.PageRequestDto;
 import com.healthree.healthree_back.common.model.ApiResponseMessage;
 import com.healthree.healthree_back.common.utils.AuthUtil;
+import com.healthree.healthree_back.order.model.dto.OrderItemDetailDto;
 import com.healthree.healthree_back.order.model.dto.OrderItemDto;
 import com.healthree.healthree_back.order.model.dto.OrderRequestDto;
 import com.healthree.healthree_back.order.model.dto.OrdersResponseDto;
@@ -27,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "구매정보 도메인", description = "구매정보 도메인")
 @Slf4j
 @RestController
-@RequestMapping("/app/oders")
+@RequestMapping("/app/orders")
 @AllArgsConstructor
 public class OrderController {
     private final OrderService orderService;
@@ -46,7 +47,7 @@ public class OrderController {
     @GetMapping("/{id}")
     public ResponseEntity<?> detail(Authentication authentication, @RequestParam Long id) {
         UserEntity userEntity = AuthUtil.getUserEntity(authentication);
-        OrderItemDto orderItemDto = orderService.getOrderDetail(userEntity, id);
+        OrderItemDetailDto orderItemDto = orderService.getOrderDetail(userEntity, id);
         ApiResponseMessage message = ApiResponseMessage.successWithData("", orderItemDto);
         return new ResponseEntity<ApiResponseMessage>(message, HttpStatus.OK);
     }

@@ -13,22 +13,22 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderItemDto {
+public class OrderItemDetailDto {
     private Long id;
     private String orderNumber;
     private LocalDateTime orderDateTime;
     private int totalPrice;
     private OrderStatus status;
     private String deliveryId;
-    private OrderShoppingItemDto shoppingItem;
+    private List<OrderShoppingItemDto> shoppingItems;
 
-    public OrderItemDto(UserOrderEntity userOrderEntity, OrderShoppingItemDto shoppingItem) {
+    public OrderItemDetailDto(UserOrderEntity userOrderEntity, List<OrderShoppingItemDto> shoppingItems) {
         this.id = userOrderEntity.getId();
         this.orderDateTime = userOrderEntity.getOrderDateTime();
         this.orderNumber = userOrderEntity.getOrderDateTime().toString() + userOrderEntity.getId();
         this.totalPrice = userOrderEntity.getTotalPrice();
         this.status = userOrderEntity.getStatus();
         this.deliveryId = userOrderEntity.getDeliveryId();
-        this.shoppingItem = shoppingItem;
+        this.shoppingItems = shoppingItems;
     }
 }
