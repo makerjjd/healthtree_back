@@ -47,7 +47,7 @@ public class OrderService {
         List<OrderItemPorjection> orderItemSummaryPorjections = orderItemRepository
                 .findOrderItemInfosByOrderIds(orderIds);
         Map<Long, List<OrderItemPorjection>> orderItemMap = orderItemSummaryPorjections.stream()
-                .collect(Collectors.groupingBy(OrderItemPorjection::getId));
+                .collect(Collectors.groupingBy(OrderItemPorjection::getOrderId));
 
         List<OrderItemDto> orderItemDtos = userOrderEntities.stream().map(userOrderEntity -> {
             List<OrderItemPorjection> orderItemPorjections = orderItemMap.get(userOrderEntity.getId());
