@@ -9,8 +9,11 @@ import org.springframework.stereotype.Component;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.healthree.healthree_back.admin.user.model.dto.AdminTokenDto;
+import com.healthree.healthree_back.admin.user.model.entity.AdminUserEntity;
 import com.healthree.healthree_back.common.handler.HealthTreeApplicationExceptionHandler;
 import com.healthree.healthree_back.common.model.ErrorCode;
+import com.healthree.healthree_back.config.auth.AdminPrincipalDetails;
 import com.healthree.healthree_back.config.auth.PrincipalDetails;
 import com.healthree.healthree_back.config.jwt.JwtProperties;
 import com.healthree.healthree_back.user.model.dto.TokenDto;
@@ -23,6 +26,27 @@ import lombok.extern.slf4j.Slf4j;
 public class TokenUtil {
     @Value("${jwt.secret-key}")
     private String secretKey;
+
+    public AdminTokenDto generateAdminToken(AdminUserEntity user) {
+        // access token 암호화
+        String accessToken = makeAdminAccessToken(user);
+
+        AdminTokenDto token = AdminTokenDto.builder().accessToken(accessToken)
+                .grantType(JwtProperties.TOKEN_PREFIX).role(user.getRole()).build();
+
+        return token;
+    }
+
+    public String makeAdminAccessToken(AdminUserEntity user) {
+        String tokenId = user.getEmail();
+
+        return JWT.create()
+                .withSubject(tokenId)
+                .withExpiresAt(new Date(System.currentTimeMillis()
+                        + JwtProperties.ACCESS_TOKEN_EXPIRATION_TIME))
+                .withClaim("tokenId", tokenId)
+                .sign(Algorithm.HMAC512(secretKey));
+    }
 
     public TokenDto generateToken(UserEntity user) {
         // access token 암호화
@@ -111,6 +135,17 @@ public class TokenUtil {
 
     public Authentication makeAuthentication(UserEntity userEntity) {
         PrincipalDetails principalDetails = new PrincipalDetails(userEntity);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                principalDetails,
+                null,
+                principalDetails.getAuthorities());
+
+        return authentication;
+
+    }
+
+    public Authentication makeAdminAuthentication(AdminUserEntity adminUserEntity) {
+        AdminPrincipalDetails principalDetails = new AdminPrincipalDetails(adminUserEntity);
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 principalDetails,
                 null,

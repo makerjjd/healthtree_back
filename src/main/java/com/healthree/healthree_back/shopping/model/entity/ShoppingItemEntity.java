@@ -12,11 +12,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Entity
 @Table(name = "shopping_item")
+@Builder
 public class ShoppingItemEntity {
     @Id
     @Column(nullable = false, updatable = false)
@@ -47,4 +49,7 @@ public class ShoppingItemEntity {
 
     @Column(nullable = false)
     private Integer stock;
+
+    @Column(nullable = false)
+    private Boolean isShow;
 }

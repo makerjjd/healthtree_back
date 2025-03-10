@@ -8,6 +8,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.util.ObjectUtils;
 
+import com.healthree.healthree_back.admin.user.AdminUserRepository;
+import com.healthree.healthree_back.admin.user.model.entity.AdminUserEntity;
 import com.healthree.healthree_back.common.handler.HealthTreeApplicationExceptionHandler;
 import com.healthree.healthree_back.common.model.ErrorCode;
 import com.healthree.healthree_back.common.utils.TokenUtil;
@@ -23,12 +25,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     private UserRepository userRepository;
+    private AdminUserRepository adminUserRepository;
     private TokenUtil tokenUtil;
 
     public JwtAuthorizationFilter(AuthenticationManager authenticationManager, UserRepository userRepository,
+            AdminUserRepository adminUserRepository,
             TokenUtil tokenUtil) {
         super(authenticationManager);
         this.userRepository = userRepository;
+        this.adminUserRepository = adminUserRepository;
         this.tokenUtil = tokenUtil;
     }
 
@@ -74,6 +79,10 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
                     if (!ObjectUtils.isEmpty(userEntity)) {
                         SecurityContextHolder.getContext().setAuthentication(tokenUtil.makeAuthentication(userEntity));
+                    } else {
+                        AdminUserEntity adminUserEntity = adminUserRepository.findByEmail(tokenId).orElse(null);
+                        SecurityContextHolder.getContext()
+                                .setAuthentication(tokenUtil.makeAdminAuthentication(adminUserEntity));
                     }
                 }
             }
