@@ -47,9 +47,6 @@ public class AdminUserEntity extends BaseEntity {
     @Column(nullable = false, length = 20)
     private String role;
 
-    @Column(nullable = false, length = 20)
-    private String status;
-
     @Column(nullable = false)
     private boolean isDeleted = false; // 추가된 필드
 }

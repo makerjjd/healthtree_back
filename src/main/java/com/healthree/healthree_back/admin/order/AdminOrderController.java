@@ -22,10 +22,10 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "어드민 주문 도메인", description = "어드민 주문 도메인")
 @Slf4j
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/admin/orders")
 @AllArgsConstructor
-public class OrderController {
-    private final OrderService orderService;
+public class AdminOrderController {
+    private final AdminOrderService orderService;
 
     @GetMapping("")
     public ResponseEntity<?> getOrders(PageRequestDto pageRequestDto) {

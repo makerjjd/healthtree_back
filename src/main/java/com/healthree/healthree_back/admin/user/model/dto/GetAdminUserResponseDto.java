@@ -11,5 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetAdminUserResponseDto {
     private List<AdminUserDto> adminUsers;
-    private Integer total;
+    private Integer totalPage;
+    private Long total;
 }

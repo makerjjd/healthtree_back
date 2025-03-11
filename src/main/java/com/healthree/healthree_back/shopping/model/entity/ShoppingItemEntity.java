@@ -2,7 +2,6 @@ package com.healthree.healthree_back.shopping.model.entity;
 
 import java.util.List;
 
-import com.healthree.healthree_back.common.model.converter.LocalDateTimeListConverter;
 import com.healthree.healthree_back.common.model.converter.StringListConverter;
 
 import jakarta.persistence.Column;
@@ -12,13 +11,17 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "shopping_item")
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ShoppingItemEntity {
     @Id
     @Column(nullable = false, updatable = false)

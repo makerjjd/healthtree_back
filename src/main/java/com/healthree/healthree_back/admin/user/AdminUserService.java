@@ -51,7 +51,7 @@ public class AdminUserService {
 
         List<UserDto> userDtos = userEntity.stream().map(UserDto::new).collect(Collectors.toList());
 
-        return new GetUserResponseDto(userDtos, userEntity.getTotalPages());
+        return new GetUserResponseDto(userDtos, userEntity.getTotalPages(), userEntity.getTotalElements());
     }
 
     @Transactional(readOnly = true)
@@ -86,7 +86,8 @@ public class AdminUserService {
 
         List<AdminUserDto> userDtos = adminUserEntity.stream().map(AdminUserDto::new).collect(Collectors.toList());
 
-        return new GetAdminUserResponseDto(userDtos, adminUserEntity.getTotalPages());
+        return new GetAdminUserResponseDto(userDtos, adminUserEntity.getTotalPages(),
+                adminUserEntity.getTotalElements());
     }
 
     @Transactional(readOnly = true)
@@ -128,11 +129,10 @@ public class AdminUserService {
         }
 
         adminUserEntity.setEmail(adminUserDto.getEmail());
-        adminUserEntity.setPassword(adminUserDto.getPassword());
         adminUserEntity.setName(adminUserDto.getName());
         adminUserEntity.setPhoneNumber(adminUserDto.getPhoneNumber());
         adminUserEntity.setRole(adminUserDto.getRole());
-        adminUserEntity.setStatus(adminUserDto.getStatus());
+        adminUserEntity.setDeleted(adminUserDto.getIsDeleted());
 
         adminUserRepository.save(adminUserEntity);
     }

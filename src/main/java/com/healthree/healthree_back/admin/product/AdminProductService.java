@@ -21,7 +21,7 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class ProductService {
+public class AdminProductService {
     private final ShoppingItemRepository shoppingItemRepository;
 
     @Transactional(readOnly = true)
@@ -32,7 +32,7 @@ public class ProductService {
                 .map(ProductDto::new)
                 .collect(Collectors.toList());
 
-        return new GetProductResponseDto(productDtos, shoppingItems.getTotalPages());
+        return new GetProductResponseDto(productDtos, shoppingItems.getTotalPages(), shoppingItems.getTotalElements());
     }
 
     @Transactional(readOnly = true)

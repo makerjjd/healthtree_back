@@ -23,7 +23,7 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class OrderService {
+public class AdminOrderService {
     private final UserOrderRepository userOrderRepository;
     private final OrderItemRepository orderItemRepository;
 

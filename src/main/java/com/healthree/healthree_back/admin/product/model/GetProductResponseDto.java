@@ -11,5 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetProductResponseDto {
     private List<ProductDto> products;
-    private Integer total;
+    private Integer totalPage;
+    private Long total;
 }

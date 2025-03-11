@@ -82,7 +82,7 @@ public class AdminUserController {
     }
 
     @Operation(summary = "어드민 사용자 삭제 토글", description = "어드민 사용자 삭제")
-    @PatchMapping("/adminUsers/{adminUserId}")
+    @PatchMapping("/adminUsers/{adminUserId}/toggleDelete")
     public ResponseEntity<?> toggleDeleteAdminUser(@PathVariable Long adminUserId) {
         adminUserService.toggleDeleteAdminUser(adminUserId);
         ApiResponseMessage message = ApiResponseMessage.success();

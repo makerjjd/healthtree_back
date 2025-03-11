@@ -15,7 +15,7 @@ public class AdminUserDto {
     private String name;
     private String phoneNumber;
     private String role;
-    private String status;
+    private Boolean isDeleted;
 
     public AdminUserDto(AdminUserEntity adminUserEntity) {
         this.id = adminUserEntity.getId();
@@ -23,6 +23,6 @@ public class AdminUserDto {
         this.name = adminUserEntity.getName();
         this.phoneNumber = adminUserEntity.getPhoneNumber();
         this.role = adminUserEntity.getRole();
-        this.status = adminUserEntity.getStatus();
+        this.isDeleted = adminUserEntity.isDeleted();
     }
 }

@@ -15,7 +15,7 @@ public class AdminUserRequestDto {
     private String name;
     private String phoneNumber;
     private String role;
-    private String status;
+    private Boolean isDeleted;
 
     public AdminUserEntity toEntity() {
         return AdminUserEntity.builder()
@@ -24,7 +24,7 @@ public class AdminUserRequestDto {
                 .name(name)
                 .phoneNumber(phoneNumber)
                 .role(role)
-                .status(status)
+                .isDeleted(isDeleted)
                 .build();
     }
 }
