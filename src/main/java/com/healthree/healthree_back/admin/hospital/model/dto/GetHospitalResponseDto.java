@@ -1,4 +1,4 @@
-package com.healthree.healthree_back.admin.order.model.dto;
+package com.healthree.healthree_back.admin.hospital.model.dto;
 
 import java.util.List;
 
@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetOrdersResposneDto {
-    private List<AdminOrderDto> orders;
-    private Integer totalPage;
+public class GetHospitalResponseDto {
+    private List<HospitalDto> hospitals;
     private Long total;
+    private Integer totalPage;
 }

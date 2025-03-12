@@ -1,5 +1,7 @@
 package com.healthree.healthree_back.hosiptal.model.entity;
 
+import org.hibernate.annotations.SQLRestriction;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,6 +19,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@SQLRestriction("is_deleted=0")
 public class HospitalEntity {
     @Id
     @Column(nullable = false, updatable = false)
@@ -34,4 +37,7 @@ public class HospitalEntity {
 
     @Column(nullable = false)
     private String description;
+
+    @Column(nullable = false)
+    private boolean isDeleted;
 }

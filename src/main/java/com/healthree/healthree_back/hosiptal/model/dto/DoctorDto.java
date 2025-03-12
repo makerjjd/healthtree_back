@@ -21,4 +21,13 @@ public class DoctorDto {
         this.image = doctorEntity.getImage();
         this.description = doctorEntity.getDescription();
     }
+
+    public DoctorEntity toEntity(Long hospitalId) {
+        return DoctorEntity.builder()
+                .hospitalId(hospitalId)
+                .name(name)
+                .image(image)
+                .description(description)
+                .build();
+    }
 }

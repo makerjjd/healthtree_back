@@ -29,18 +29,18 @@ public class AdminOrderService {
 
     @Transactional(readOnly = true)
     public GetOrdersResposneDto getOrders(PageRequestDto pageRequestDto) {
-        Page<UserOrderEntity> userOrders = userOrderRepository.findAll(pageRequestDto.getPageable());
+        Page<UserOrderEntity> userOrders = userOrderRepository.findWithDeleteAll(pageRequestDto.getPageable());
 
         List<AdminOrderDto> adminOrders = userOrders.stream()
                 .map(AdminOrderDto::new)
                 .collect(Collectors.toList());
 
-        return new GetOrdersResposneDto(adminOrders, userOrders.getTotalPages());
+        return new GetOrdersResposneDto(adminOrders, userOrders.getTotalPages(), userOrders.getTotalElements());
     }
 
     @Transactional(readOnly = true)
     public AdminOrderDetailDto getOrder(Long orderId) {
-        UserOrderEntity userOrderEntity = userOrderRepository.findById(orderId)
+        UserOrderEntity userOrderEntity = userOrderRepository.findWithDeleteById(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("주문이 존재하지 않습니다."));
 
         List<AdminOrderItemProjection> adminOrderItemProjections = orderItemRepository.findAllInfoByOrderId(orderId);
