@@ -101,6 +101,8 @@ public class AdminHospitalService {
             doctorEntity.setDeleted(true);
         }
 
+        doctorRepository.saveAll(doctors);
+
         hospitalRepository.save(hospitalEntity);
     }
 

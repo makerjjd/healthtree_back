@@ -24,6 +24,7 @@ public class DoctorDto {
 
     public DoctorEntity toEntity(Long hospitalId) {
         return DoctorEntity.builder()
+                .id(id)
                 .hospitalId(hospitalId)
                 .name(name)
                 .image(image)
