@@ -43,13 +43,13 @@ public class AdminProductService {
         return new ProductDetailDto(shoppingItemEntity);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = false)
     public void createProduct(CreateProductDetailDto createProductDetailDto) {
         ShoppingItemEntity shoppingItemEntity = createProductDetailDto.toEntity();
         shoppingItemRepository.save(shoppingItemEntity);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = false)
     public void updateProduct(Long id, CreateProductDetailDto createProductDetailDto) {
         ShoppingItemEntity shoppingItemEntity = shoppingItemRepository.findById(id)
                 .orElseThrow(() -> new HealthTreeApplicationExceptionHandler(ErrorCode.NOT_FOUND, "상품을 찾을 수 없습니다."));
@@ -67,7 +67,7 @@ public class AdminProductService {
         shoppingItemRepository.save(shoppingItemEntity);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = false)
     public void deleteProduct(Long id) {
         ShoppingItemEntity shoppingItemEntity = shoppingItemRepository.findById(id)
                 .orElseThrow(() -> new HealthTreeApplicationExceptionHandler(ErrorCode.NOT_FOUND, "상품을 찾을 수 없습니다."));
