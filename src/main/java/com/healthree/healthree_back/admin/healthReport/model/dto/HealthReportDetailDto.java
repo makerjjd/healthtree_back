@@ -19,5 +19,17 @@ public class HealthReportDetailDto {
     private String userBirth;
     private GenderType userGender;
     private String doctorNote;
-    // private List<HealthForIssueDto> issues;
+    private List<HealthForIssueDto> issues;
+
+    public HealthReportDetailDto(HealthReportDetailProjection healthReportDetailProjection,
+            List<HealthForIssueDto> issues) {
+        this.id = healthReportDetailProjection.getId();
+        this.userId = healthReportDetailProjection.getUserId();
+        this.userName = healthReportDetailProjection.getUserName();
+        this.userPhoneNumber = healthReportDetailProjection.getUserPhoneNumber();
+        this.userBirth = healthReportDetailProjection.getUserBirth();
+        this.userGender = GenderType.valueOf(healthReportDetailProjection.getUserGender());
+        this.doctorNote = healthReportDetailProjection.getDoctorNote();
+        this.issues = issues;
+    }
 }

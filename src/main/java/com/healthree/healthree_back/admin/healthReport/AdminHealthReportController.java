@@ -4,11 +4,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.healthree.healthree_back.admin.healthReport.model.dto.GetHealthReportResponseDto;
 import com.healthree.healthree_back.admin.healthReport.model.dto.HealthReportDetailDto;
+import com.healthree.healthree_back.admin.healthReport.model.dto.UpdateHealthReportRequestDto;
 import com.healthree.healthree_back.common.dto.PageRequestDto;
 import com.healthree.healthree_back.common.model.ApiResponseMessage;
 
@@ -35,6 +38,15 @@ public class AdminHealthReportController {
     public ResponseEntity<?> getHealthReport(@PathVariable Long id) {
         HealthReportDetailDto healthReportDetailDto = healthReportService.getHealthReport(id);
         ApiResponseMessage message = ApiResponseMessage.successWithData("", healthReportDetailDto);
+        return new ResponseEntity<ApiResponseMessage>(message, HttpStatus.OK);
+    }
+
+    // report 수정
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateHealthReport(@PathVariable Long id,
+            @RequestBody UpdateHealthReportRequestDto updateHealthReportRequestDto) {
+        healthReportService.updateHealthReport(id, updateHealthReportRequestDto);
+        ApiResponseMessage message = ApiResponseMessage.success();
         return new ResponseEntity<ApiResponseMessage>(message, HttpStatus.OK);
     }
 }
