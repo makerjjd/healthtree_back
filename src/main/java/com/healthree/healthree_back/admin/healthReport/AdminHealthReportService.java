@@ -7,19 +7,24 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.healthree.healthree_back.admin.healthReport.model.dto.AdminHealthProductForIssueDto;
 import com.healthree.healthree_back.admin.healthReport.model.dto.AdminHospitalForIssueDto;
 import com.healthree.healthree_back.admin.healthReport.model.dto.GetHealthReportResponseDto;
+import com.healthree.healthree_back.admin.healthReport.model.dto.GetHospitalResponseForReport;
+import com.healthree.healthree_back.admin.healthReport.model.dto.GetProductResponseForReport;
 import com.healthree.healthree_back.admin.healthReport.model.dto.HealthForIssueDto;
 import com.healthree.healthree_back.admin.healthReport.model.dto.HealthIssueItemDto;
 import com.healthree.healthree_back.admin.healthReport.model.dto.HealthReportDetailDto;
 import com.healthree.healthree_back.admin.healthReport.model.dto.HealthReportDetailProjection;
 import com.healthree.healthree_back.admin.healthReport.model.dto.HealthReportDto;
 import com.healthree.healthree_back.admin.healthReport.model.dto.UpdateHealthReportRequestDto;
+import com.healthree.healthree_back.admin.product.model.ProductDto;
 import com.healthree.healthree_back.common.dto.PageRequestDto;
 import com.healthree.healthree_back.common.handler.HealthTreeApplicationExceptionHandler;
 import com.healthree.healthree_back.common.model.ErrorCode;
@@ -231,5 +236,53 @@ public class AdminHealthReportService {
                 healthProductForIssueRepository.saveAll(newHealthProductForIssueEntities);
 
                 healthReportRepository.save(healthReportEntity);
+        }
+
+        @Transactional(readOnly = true)
+        public GetProductResponseForReport getProducts(PageRequestDto pageRequestDto) {
+                String keyword = pageRequestDto.getSearch();
+
+                Slice<ShoppingItemEntity> shoppingItemEntities = null;
+
+                if (StringUtils.isNotBlank(keyword)) {
+                        shoppingItemEntities = shoppingItemRepository.findByTitleContaining(keyword,
+                                        pageRequestDto.getPageable());
+                } else {
+                        shoppingItemEntities = shoppingItemRepository.findAll(pageRequestDto.getPageable());
+                }
+
+                List<ProductDto> productDtos = shoppingItemEntities.stream().map(ProductDto::new)
+                                .collect(Collectors.toList());
+
+                String nextUrl = null;
+                if (shoppingItemEntities != null && shoppingItemEntities.hasNext()) {
+                        nextUrl = "/admin/healthReports/products" + pageRequestDto.nextUrl();
+                }
+
+                return new GetProductResponseForReport(productDtos, nextUrl);
+        }
+
+        @Transactional(readOnly = true)
+        public GetHospitalResponseForReport getHospitals(PageRequestDto pageRequestDto) {
+                String keyword = pageRequestDto.getSearch();
+
+                Slice<HospitalEntity> hospitalEntities = null;
+
+                if (StringUtils.isNotBlank(keyword)) {
+                        hospitalEntities = hospitalRepository.findByNameContaining(keyword,
+                                        pageRequestDto.getPageable());
+                } else {
+                        hospitalEntities = hospitalRepository.findAll(pageRequestDto.getPageable());
+                }
+
+                List<HospitalDto> hospitalDtos = hospitalEntities.stream().map(HospitalDto::new)
+                                .collect(Collectors.toList());
+
+                String nextUrl = null;
+                if (hospitalEntities != null && hospitalEntities.hasNext()) {
+                        nextUrl = "/admin/healthReports/hospitals" + pageRequestDto.nextUrl();
+                }
+
+                return new GetHospitalResponseForReport(hospitalDtos, nextUrl);
         }
 }

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.healthree.healthree_back.admin.healthReport.model.dto.GetHealthReportResponseDto;
+import com.healthree.healthree_back.admin.healthReport.model.dto.GetHospitalResponseForReport;
+import com.healthree.healthree_back.admin.healthReport.model.dto.GetProductResponseForReport;
 import com.healthree.healthree_back.admin.healthReport.model.dto.HealthReportDetailDto;
 import com.healthree.healthree_back.admin.healthReport.model.dto.UpdateHealthReportRequestDto;
 import com.healthree.healthree_back.common.dto.PageRequestDto;
@@ -47,6 +49,20 @@ public class AdminHealthReportController {
             @RequestBody UpdateHealthReportRequestDto updateHealthReportRequestDto) {
         healthReportService.updateHealthReport(id, updateHealthReportRequestDto);
         ApiResponseMessage message = ApiResponseMessage.success();
+        return new ResponseEntity<ApiResponseMessage>(message, HttpStatus.OK);
+    }
+
+    @GetMapping("/products")
+    public ResponseEntity<?> getProducts(PageRequestDto pageRequestDto) {
+        GetProductResponseForReport getProductResponseForReport = healthReportService.getProducts(pageRequestDto);
+        ApiResponseMessage message = ApiResponseMessage.successWithData("", getProductResponseForReport);
+        return new ResponseEntity<ApiResponseMessage>(message, HttpStatus.OK);
+    }
+
+    @GetMapping("/hospitals")
+    public ResponseEntity<?> getHospitals(PageRequestDto pageRequestDto) {
+        GetHospitalResponseForReport GetHospitalResponseForReport = healthReportService.getHospitals(pageRequestDto);
+        ApiResponseMessage message = ApiResponseMessage.successWithData("", GetHospitalResponseForReport);
         return new ResponseEntity<ApiResponseMessage>(message, HttpStatus.OK);
     }
 }
